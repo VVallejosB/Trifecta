@@ -24,7 +24,7 @@
                     <div class="flex items-center justify-between" *ngIf="action === 'signIn'">
                         <a routerLink="user/forgot-password" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
                     </div>
-                    <button type="submit" class="w-full rounded-lg bg-sky-500 hover:bg.sky-700">
+                    <button type="submit" class="w-full rounded-lg py-3 bg-sky-500 hover:bg.sky-700">
                         {{title}} </button>
 
                     <ng-container *ngIf="action === 'signIn'; else templateSignIn">
@@ -36,7 +36,7 @@
                     
                 </form>
                 <div *ngIf="action === 'signIn'">
-                    <button class="w-full rounded-lg bg-red-500 hover:bg.red-700" (click)="signInGoogle()">
+                    <button class="w-full rounded-lg py-3 bg-red-500 hover:bg.red-700" (click)="signInGoogle()">
                         Google Login
                     </button>
                 </div>
@@ -45,5 +45,8 @@
     </div>
 </section>
 <ng-template #templateSignIn>
-    Si ya tienes una cuenta, <a routerLink="/user/sign-in" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Inicia Sesión</a>
+    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+    Si ya tienes una cuenta, <a routerLink="/user/sign-in" 
+      class="font-medium text-primary-600 hover:underline dark:text-primary-500">Inicia Sesión</a>
+    </p>
 </ng-template>
