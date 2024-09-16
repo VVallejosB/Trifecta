@@ -1,7 +1,45 @@
-<section>
-    <div class="py-24 px-6 flex justify-center items-center h-[300px]">
-        <p class="text-3xl font-bold text-blue-500 dark:text-blue-400 text-center">
-            Estas loggeado!
-        </p>
+<div class="profile-container">
+    <h1>Gestionar Perfil</h1>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <div class="form-group">
+        <label for="firstName">Nombre:</label>
+        <input id="firstName" formControlName="firstName" />
+        <div *ngIf="profileForm.get('firstName')?.invalid && (profileForm.get('firstName')?.dirty || profileForm.get('firstName')?.touched)" class="error">
+          <small *ngIf="profileForm.get('firstName')?.errors?.['required']">El nombre es obligatorio.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="lastName">Apellido:</label>
+        <input id="lastName" formControlName="lastName" />
+        <div *ngIf="profileForm.get('lastName')?.invalid && (profileForm.get('lastName')?.dirty || profileForm.get('lastName')?.touched)" class="error">
+          <small *ngIf="profileForm.get('lastName')?.errors?.['required']">El apellido es obligatorio.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="dob">Fecha de Nacimiento:</label>
+        <input id="dob" type="date" formControlName="dob" />
+        <div *ngIf="profileForm.get('dob')?.invalid && (profileForm.get('dob')?.dirty || profileForm.get('dob')?.touched)" class="error">
+          <small *ngIf="profileForm.get('dob')?.errors?.['required']">La fecha de nacimiento es obligatoria.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="phone">Número de Teléfono:</label>
+        <input id="phone" formControlName="phone" />
+        <div *ngIf="profileForm.get('phone')?.invalid && (profileForm.get('phone')?.dirty || profileForm.get('phone')?.touched)" class="error">
+          <small *ngIf="profileForm.get('phone')?.errors?.['required']">El número de teléfono es obligatorio.</small>
+          <small *ngIf="profileForm.get('phone')?.errors?.['pattern']">El número de teléfono debe tener 10 dígitos.</small>
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="profileForm.invalid">Guardar</button>
+    </form>
+  
+    <!-- Mensaje de éxito -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
     </div>
-</section>
+  </div>
+  
