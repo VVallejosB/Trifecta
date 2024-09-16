@@ -12,22 +12,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAuth } from '@angular/fire/auth';
 import { getAuth,connectAuthEmulator } from 'firebase/auth';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    // Inicializar Firebase con la configuración del environment
+    NavbarComponent,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() =>{
       const auth = getAuth();
-      connectAuthEmulator(auth,'http://localhost:9099',{disableWarnings: true});
+      //connectAuthEmulator(auth,'http://localhost:9099',{disableWarnings: true});
       return auth;
     } ),
     provideFirestore(() =>{
       const firestore = getFirestore();
-      connectFirestoreEmulator(firestore,'http://localhost', 9098)
+      //connectFirestoreEmulator(firestore,'http://localhost', 9098)
       return firestore
     }),
   ],
@@ -35,5 +36,4 @@ import { getAuth,connectAuthEmulator } from 'firebase/auth';
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
 

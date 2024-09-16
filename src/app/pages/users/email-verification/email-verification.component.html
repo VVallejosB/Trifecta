@@ -1,1 +1,18 @@
-<p>email-verification works!</p>
+<section style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f9fafb;">
+  <div class="px-6 text-center text-gray-800 bg-gray-50">
+      <h1 class="mb-12 text-2xl font-bold md:text-3xl xl:text-4xl">
+          Gracias por registrarte! <br/>
+          <span>
+              Hemos enviado una confirmación al siguiente mail: <strong>{{user?.email}}</strong>
+          </span>
+      </h1>
+      <p class="text-blue-600">
+          Por favor, revisa tu email y haz click en el link para verificar tu correo.
+      </p>
+      <button 
+          (click)="onResendEmail()"
+          class="inline-block py-3 uppercase bg-transparent rounded px-7 hover:text-blue-700 hover:bg-gray-100">
+          Reenviar
+      </button>
+  </div>
+</section>

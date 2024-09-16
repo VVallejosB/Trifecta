@@ -120,16 +120,21 @@
     display: flex;
     align-items: center;
   }
-  .nav-btn{
+  .nav-btn {
     display: inline-block;
     padding: 9px 24px;
-    background: #5fa1ff ;
-    border: 2px solid #5fa1ff  ;
+    background: #5fa1ff;
+    border: 2px solid #5fa1ff;
     border-radius: 7px;
-    color: #fff ;
+    color: #fff;
     font-size: 20px;
     font-weight: 500;
     transition: all .6s ease;
+    margin-right: 10px; /* Espacio entre los botones */
+  }
+  
+  .nav-btn:last-child {
+    margin-right: 0; /* Asegura que el último botón no tenga margen derecho extra */
   }
   .nav-btn:hover{
     transform: translateY(-5px);
@@ -342,4 +347,5 @@
     }
   
   }
+
   

@@ -3,15 +3,17 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ErrorMessageComponent } from "./components/error-message/error-message.component";
+import { AuthService } from '@app/pages/users/services/auth.service';
+import { Observable } from 'rxjs';
 
 const actionType={
   signIn:{
     action: 'signIn',
-    title: 'Sign In',
+    title: 'Inicia Sesión',
 },
   signUp:{ 
   action:'signUp',
-  title: 'Sign Up'
+  title: 'Crea tu cuenta'
 }} as const;
 
 type ActionType = keyof typeof actionType;
@@ -28,9 +30,13 @@ export class AuthFormComponent implements OnInit {
   form!: FormGroup;
   title!: string;
 
+  user$! :Observable<any>;
+
+  private readonly authSvc = inject(AuthService);
 
   private readonly fb= inject(FormBuilder);
-  private readonly emailPatter = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  private readonly emailPatter = 
+  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   ngOnInit(): void {
     this.title=
@@ -39,13 +45,14 @@ export class AuthFormComponent implements OnInit {
       :actionType.signUp.title
 
     this.initForm();
+
+    this.user$ = this.authSvc.userState$;
 }
 
 onSubmit():void{
-  const{email,password}= this.form.value;
-  this.action === actionType.signIn.action
-    ?'signIn'
-    :'signUp'
+  const{email,password,nombre}= this.form.value;
+  this.action === actionType.signIn.action ? 
+    this.authSvc.signIn(email, password) : this.authSvc.signUp(email, password);
 }
 
 hasError(field:string): boolean{
@@ -53,13 +60,15 @@ hasError(field:string): boolean{
   return !!fieldName?.invalid && fieldName.touched;
 }
 
-signInGoogle():void{
+signInGoogle():void {
+  this.authSvc.signInGoogle();
 }
 
 private initForm(): void {
   this.form = this.fb.group({
     email: ['', [Validators.required, Validators.pattern(this.emailPatter)]],
     password: ['', [Validators.required, Validators.minLength(5)]]
+    
   })
 }
 }
