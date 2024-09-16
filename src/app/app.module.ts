@@ -14,12 +14,15 @@ import { provideAuth } from '@angular/fire/auth';
 import { getAuth,connectAuthEmulator } from 'firebase/auth';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NavbarComponent,
+    ReactiveFormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() =>{
       const auth = getAuth();
