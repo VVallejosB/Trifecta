@@ -1,4 +1,4 @@
-import { Auth, authState, createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, User, UserCredential } from '@angular/fire/auth';
+import { Auth, authState, createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, User, UserCredential } from '@angular/fire/auth';
 import { inject, Injectable } from '@angular/core';
 import { signInWithRedirect } from '@firebase/auth';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class AuthService {
 
   async signInGoogle(): Promise<void> {
     try {
-      await signInWithRedirect(this.auth, this.googleProvider);
+      await signInWithPopup(this.auth, this.googleProvider);
     } catch (error) {
       console.log('Google login', error);
     }
