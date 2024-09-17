@@ -4,6 +4,9 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@app/pages/users/services/auth.service';
 import { Observable } from 'rxjs';
 import { User } from 'firebase/auth';
+import Swal from 'sweetalert2';
+
+const b = Swal.getHtmlContainer()?.querySelector('b');
 
 @Component({
   selector: 'app-navbar',
@@ -18,11 +21,11 @@ export class NavbarComponent {
 
   constructor(router: Router){
     this.user$ = this.authSvc.userState$;
-    
+
   }
     async onSignOut(): Promise <void> {
       await this.authSvc.signOut();
       window.location.href='/home'
   }
-
 }
+

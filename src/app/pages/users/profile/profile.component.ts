@@ -5,6 +5,8 @@ import { AuthService } from '../services/auth.service'; // Ajusta la ruta según
 import { ProfileService } from './profile.service'; // Ajusta la ruta según sea necesario
 import { User } from '@angular/fire/auth';
 import { switchMap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -19,13 +21,15 @@ export class ProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private router: Router
   ) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       dob: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{9,15}$/)]]
+      phone: ['', [Validators.required, Validators.pattern(/^\d{9,15}$/)]],
+      profileCompleted:[true]
     });
   }
 
@@ -52,13 +56,35 @@ export class ProfileComponent implements OnInit {
       if (user && this.profileForm.valid) {
         this.profileService.updateProfile(user.uid, this.profileForm.value)
           .then(() => {
-            this.successMessage = 'Perfil guardado con éxito.';
+            // Mostrar una alerta de éxito con SweetAlert2
+            Swal.fire({
+              title: 'Éxito',
+              text: 'Perfil guardado con éxito.',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+            this.router.navigate(['/home']);
           })
           .catch(error => {
+            // Mostrar una alerta de error con SweetAlert2
+            Swal.fire({
+              title: 'Error',
+              text: 'Hubo un error al guardar el perfil. Inténtalo de nuevo.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
             console.error('Error al guardar el perfil:', error);
           });
       } else {
+        // Mostrar una alerta de advertencia si el formulario es inválido o el usuario no está autenticado
+        Swal.fire({
+          title: 'Advertencia',
+          text: 'Formulario inválido o usuario no autenticado.',
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        });
         console.log('Formulario inválido o usuario no autenticado');
+
       }
     });
   }
