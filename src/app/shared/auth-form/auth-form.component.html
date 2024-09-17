@@ -1,6 +1,6 @@
 <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div 
+        <div
           class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -30,7 +30,7 @@
 
                     <ng-container *ngIf="action === 'signIn'; else templateSignIn">
                         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                           No tienes una cuenta aún? <a routerLink="/user/sign-up" 
+                           No tienes una cuenta aún? <a routerLink="/user/sign-up"
                               class="font-medium text-primary-600 hover:underline dark:text-primary-500">Registrate</a>
                         </p>
 
@@ -38,9 +38,14 @@
 
                 </form>
                 <div *ngIf="action === 'signIn'" >
-                    <button class="w-full rounded-lg py-3 bg-red-500 hover:bg-red-700" (click)="signInGoogle()">Google Login
-                        <!-- <img  src="https://cdn-icons-png.flaticon.com/128/888/888846.png" alt=""> -->
+                    <button class="w-full flex items-center justify-center rounded-lg py-3 bg-white border hover:bg-gray-100" (click)="signInGoogle()">
+                      <img style="width: 20px; height: 20px; margin-right: 8px;" src="https://cdn-icons-png.flaticon.com/128/888/888846.png" alt="">Google Login
                     </button>
+                    <br>
+                    <button class="w-full flex items-center justify-center rounded-lg py-3 bg-white border hover:bg-gray-100" >
+                      <img style="width: 20px; height: 20px; margin-right: 8px;" src="https://cdn-icons-png.flaticon.com/128/733/733547.png" alt="">Facebook Login
+
+                  </button>
                 </div>
             </div>
         </div>
@@ -48,7 +53,14 @@
 </section>
 <ng-template #templateSignIn>
     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-    Si ya tienes una cuenta, <a routerLink="/user/sign-in" 
+    Si ya tienes una cuenta, <a routerLink="/user/sign-in"
       class="font-medium text-primary-600 hover:underline dark:text-primary-500">Inicia Sesión</a>
     </p>
 </ng-template>
+<div class="flex space-x-4 justify-center">
+  <button class="w-full flex items-center justify-center rounded-lg py-3 bg-white border hover:bg-gray-100" (click)="signInGoogle()">
+      <img class="w-5 h-5 mr-2" src="https://cdn-icons-png.flaticon.com/128/281/281764.png" alt="Google icon">
+      Google
+  </button>
+
+</div>
