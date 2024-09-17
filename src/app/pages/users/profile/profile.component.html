@@ -1,45 +1,57 @@
 <div class="profile-container">
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+    <!-- Nombre -->
     <h1>Gestionar Perfil</h1>
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
-      <div class="form-group">
-        <label for="firstName">Nombre:</label>
-        <input id="firstName" formControlName="firstName" />
-        <div *ngIf="profileForm.get('firstName')?.invalid && (profileForm.get('firstName')?.dirty || profileForm.get('firstName')?.touched)" class="error">
-          <small *ngIf="profileForm.get('firstName')?.errors?.['required']">El nombre es obligatorio.</small>
-        </div>
+    <span class="disclaimer-text">Aviso de Privacidad: Tus datos serán tratados de manera confidencial y segura conforme a nuestra Política de Privacidad. Tienes derecho a acceder, rectificar o eliminar tu información en cualquier momento.</span>
+    <br><br>
+
+    <div class="form-group">
+      <label for="firstName">Nombre:</label>
+      <input id="firstName" formControlName="firstName" />
+      <div *ngIf="profileForm.get('firstName')?.invalid && (profileForm.get('firstName')?.dirty || profileForm.get('firstName')?.touched)" class="error">
+        <small *ngIf="profileForm.get('firstName')?.errors?.['required']">El nombre es obligatorio.</small>
       </div>
-  
-      <div class="form-group">
-        <label for="lastName">Apellido:</label>
-        <input id="lastName" formControlName="lastName" />
-        <div *ngIf="profileForm.get('lastName')?.invalid && (profileForm.get('lastName')?.dirty || profileForm.get('lastName')?.touched)" class="error">
-          <small *ngIf="profileForm.get('lastName')?.errors?.['required']">El apellido es obligatorio.</small>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="dob">Fecha de Nacimiento:</label>
-        <input id="dob" type="date" formControlName="dob" />
-        <div *ngIf="profileForm.get('dob')?.invalid && (profileForm.get('dob')?.dirty || profileForm.get('dob')?.touched)" class="error">
-          <small *ngIf="profileForm.get('dob')?.errors?.['required']">La fecha de nacimiento es obligatoria.</small>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="phone">Número de Teléfono:</label>
-        <input id="phone" formControlName="phone" />
-        <div *ngIf="profileForm.get('phone')?.invalid && (profileForm.get('phone')?.dirty || profileForm.get('phone')?.touched)" class="error">
-          <small *ngIf="profileForm.get('phone')?.errors?.['required']">El número de teléfono es obligatorio.</small>
-          <small *ngIf="profileForm.get('phone')?.errors?.['pattern']">El número de teléfono debe tener 10 dígitos.</small>
-        </div>
-      </div>
-  
-      <button type="submit" [disabled]="profileForm.invalid">Guardar</button>
-    </form>
-  
-    <!-- Mensaje de éxito -->
-    <div *ngIf="successMessage" class="success-message">
-      {{ successMessage }}
     </div>
+
+    <!-- Apellido -->
+    <div class="form-group">
+      <label for="lastName">Apellido:</label>
+      <input id="lastName" formControlName="lastName" />
+      <div *ngIf="profileForm.get('lastName')?.invalid && (profileForm.get('lastName')?.dirty || profileForm.get('lastName')?.touched)" class="error">
+        <small *ngIf="profileForm.get('lastName')?.errors?.['required']">El apellido es obligatorio.</small>
+      </div>
+    </div>
+
+    <!-- Fecha de nacimiento -->
+    <div class="form-group">
+      <label for="dob">Fecha de Nacimiento:</label>
+      <input id="dob" type="date" formControlName="dob" />
+      <div *ngIf="profileForm.get('dob')?.invalid && (profileForm.get('dob')?.dirty || profileForm.get('dob')?.touched)" class="error">
+        <small *ngIf="profileForm.get('dob')?.errors?.['required']">La fecha de nacimiento es obligatoria.</small>
+      </div>
+    </div>
+
+    <!-- Número de teléfono -->
+    <div class="phone-input-container form-group">
+      <label for="phone">Número de Teléfono:</label>
+      <div class="phone-input-wrapper">
+        <span class="flag-container">
+          <img src="https://cdn-icons-png.flaticon.com/128/2151/2151351.png" alt="Chile Flag">
+        </span>
+        <span class="country-code">+56</span>
+        <input type="tel" id="phone" formControlName="phone" class="phone-input" placeholder="Ingresa tu número">
+
+      </div>        <div *ngIf="profileForm.get('phone')?.invalid && (profileForm.get('phone')?.dirty || profileForm.get('phone')?.touched)" class="error">
+        <small *ngIf="profileForm.get('phone')?.errors?.['required']">El número de teléfono es obligatorio.</small>
+      </div>
+    </div>
+    <!-- Botón para enviar el formulario -->
+    <div style="text-align: center;">
+      <button type="submit" [disabled]="profileForm.invalid">Guardar</button>
+    </div>
+  </form>
+  <div class="hero-img">
+    <img src="https://cdn-icons-png.flaticon.com/128/5922/5922947.png" alt="Imagen de Perfil" class="profile-image">
   </div>
-  
+</div>

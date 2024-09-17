@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       dob: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]]
+      phone: ['', [Validators.required, Validators.pattern(/^\d{9,15}$/)]]
     });
   }
 

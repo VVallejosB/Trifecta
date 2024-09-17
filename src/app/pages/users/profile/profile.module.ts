@@ -6,7 +6,7 @@ import { ProfileComponent } from './profile.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NavbarComponent } from '@app/shared/components/navbar/navbar.component';
 @NgModule({
   declarations: [
     ProfileComponent
@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     ProfileRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,NavbarComponent
   ]
 })
 export class ProfileModule { }

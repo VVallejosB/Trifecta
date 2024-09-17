@@ -13,7 +13,7 @@
     --bif-font:6.6rem;
     --p-font:1rem;
   }
-  
+
   body{
     background: var(--bg-color);
     color: var(--text-color);
@@ -102,7 +102,7 @@
   .navlist{
     display: flex;
   }
-  
+
   .navlist a{
     display: inline-block;
     margin: 0 35px;
@@ -110,7 +110,7 @@
     font-size:  25px;
     transition: all .6s ease;
   }
-  
+
   .home:hover{
     transform: translateY(-5px);
     border: 5px solid var(--main-color);
@@ -132,7 +132,7 @@
     transition: all .6s ease;
     margin-right: 10px; /* Espacio entre los botones */
   }
-  
+
   .nav-btn:last-child {
     margin-right: 0; /* Asegura que el último botón no tenga margen derecho extra */
   }
@@ -345,7 +345,14 @@
     h1 span{
         padding: 0;
     }
-  
-  }
 
-  
+  }
+  .user-email {
+    margin-right: 20px; /* Ajusta el margen derecho del correo para separarlo del botón */
+    font-size: 1rem;
+    color: #000; /* Ajusta el color si es necesario */
+  }
+h1{
+  font-size: 25px;
+
+}

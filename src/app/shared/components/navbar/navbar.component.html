@@ -9,7 +9,7 @@
     <a href="#" class="logo" routerLink="home">
       <img class="logo-ajust" src="assets/icon/loogo-Photoroom.png" alt="Logo">
     </a>
-  
+
     <!-- Lista de navegación con routerLink y ajustes según la autenticación -->
     <ul class="navlist">
       <li><a class="home" routerLink="home">Inicio</a></li>
@@ -17,24 +17,28 @@
       <li><a class="home" routerLink="about-us">Acerca de Nosotros</a></li>
       <li><a class="home" routerLink="contact">Contáctanos</a></li>
     </ul>
-  
+
     <!-- Sección de autenticación -->
     <div class="right-content">
       <!-- Condicional para mostrar opciones según si el usuario está autenticado -->
       <ng-container *ngIf="user$ | async as user; else guestLinks">
         <!-- Si el usuario está autenticado, se muestra su email y el botón de Sign Out -->
-        <span class="user-email">{{ user.email }}</span>
+        <div>
+          <h1>¡Bienvenido!</h1>
+          <span class="user-email">{{ user.email }}</span>
+        </div>
+
         <a href="" (click)="onSignOut()" class="nav-btn">Cerrar Sesión</a>
       </ng-container>
-  
+
       <!-- Enlace para usuarios no autenticados -->
       <ng-template #guestLinks>
         <a routerLink="user/sign-in" class="nav-btn">Iniciar Sesión</a>
         <a routerLink="user/sign-up" class="nav-btn">Registrate</a>
       </ng-template>
-  
+
       <!-- Ícono del menú (asumo que lo usas para dispositivos móviles) -->
       <!-- <div class="bx bx-menu" id="menu-icon" (click)="toggleMenu()"></div> -->
     </div>
   </header>
-  
+

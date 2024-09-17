@@ -1,21 +1,30 @@
 .profile-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centra verticalmente */
-  align-items: center; /* Centra horizontalmente */
-  min-height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
-  background: #5fa1ff; /* Fondo azul */
-  padding: 20px; /* Espaciado interior */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Alinea verticalmente */
+  min-height: 100vh; /* Asegura que ocupe toda la ventana */
+  background: #d8f8ff;
+  padding: 20px;
 }
 
 .profile-form {
-  background: #fff; /* Fondo blanco para el formulario */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  max-width: 500px;
   width: 100%;
-  max-width: 500px; /* Ancho máximo del formulario */
 }
+
+.hero-img {
+  margin-left: 300px; /* Aumenta el espacio entre el formulario y el ícono */
+}
+
+.hero-img img {
+  width: 200px; /* Ajusta el tamaño de la imagen si es necesario */
+  height: auto;
+}
+
 
 .form-group {
   margin-bottom: 15px;
@@ -51,4 +60,123 @@ button {
 
 button:disabled {
   background-color: #ccc;
+}
+
+/* Contenedor de teléfono */
+.phone-input-container {
+  margin-bottom: 15px;
+}
+
+.phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 5px;
+  background-color: #f9fafb;
+  width: 100%;
+  max-width: 400px;
+}
+
+.flag-container {
+  margin-right: 10px;
+}
+
+.flag-container img {
+  width: 24px;
+  height: auto;
+}
+
+.country-code {
+  font-size: 1rem;
+  margin-right: 10px;
+  color: #374151;
+}
+
+.phone-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: transparent;
+  color: #374151;
+}
+
+.phone-input::placeholder {
+  color: #9ca3af;
+}
+h1 {
+  font-weight: bold;
+  font-size: 2rem; /* Ajusta el tamaño según tu preferencia */
+  text-align: center; /* Centra el texto horizontalmente */
+}
+
+.disclaimer-text {
+  color: red; /* Cambia el color a azul */
+  font-style: italic;
+}
+.tinaja {
+  width: 120px;
+  height: 80px;
+  background-color: #964B00; /* Color marrón para la tinaja */
+  border-bottom-left-radius: 60px;
+  border-bottom-right-radius: 60px;
+  position: relative;
+  margin: 50px auto;
+  overflow: hidden;
+  animation: bounce 3s infinite ease-in-out;
+}
+
+.water {
+  width: 100%;
+  height: 40px;
+  background-color: #3498db; /* Color del agua */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: wave 1.5s infinite linear;
+}
+
+/* Animación de rebote de la tinaja */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Animación de las olas del agua */
+@keyframes wave {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.bubble {
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  animation: bubbleUp 4s infinite ease-in-out;
+  opacity: 0;
+}
+
+@keyframes bubbleUp {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px) scale(1.2);
+    opacity: 0;
+  }
 }
