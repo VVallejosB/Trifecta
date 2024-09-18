@@ -15,6 +15,7 @@ import { getAuth,connectAuthEmulator } from 'firebase/auth';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductosComponent } from './pages/productos/productos.component';
 
 @NgModule({
   declarations: [AppComponent],

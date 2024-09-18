@@ -43,6 +43,11 @@ const routes: Routes = [
       ), 
   }, 
   { 
+    path: 'productos', 
+    loadChildren: () => 
+      import('./pages/productos/productos.module').then((m) => m.ProductosModule), 
+  },
+  { 
     path: 'home', 
     loadChildren: () => 
       import('./pages/home/home.module').then((m) => m.HomeModule), 
