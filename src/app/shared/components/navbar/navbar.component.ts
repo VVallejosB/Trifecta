@@ -17,6 +17,7 @@ const b = Swal.getHtmlContainer()?.querySelector('b');
 })
 export class NavbarComponent {
   user$:Observable<User | null>;
+  menuVisible: boolean = false;
   private readonly authSvc = inject(AuthService);
 
   constructor(router: Router){
@@ -26,6 +27,10 @@ export class NavbarComponent {
     async onSignOut(): Promise <void> {
       await this.authSvc.signOut();
       window.location.href='/home'
+  }
+
+  toggleMenu(): void {
+    this.menuVisible = !this.menuVisible;
   }
 }
 

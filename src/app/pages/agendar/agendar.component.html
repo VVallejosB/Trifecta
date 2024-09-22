@@ -1,0 +1,73 @@
+<section>
+    <div class="container">
+      <h1>Reserva de Horas</h1>
+
+      <form id="reservaForm">
+        <!-- Selección de la fecha -->
+        <div class="form-group">
+          <label for="fecha">Selecciona una fecha:</label>
+          <input type="date" id="fecha" name="fecha" required>
+        </div>
+
+        <!-- Selección de la hora -->
+        <div class="form-group">
+          <label for="hora">Selecciona una hora:</label>
+          <select id="hora" name="hora" required>
+            <option value="">Selecciona una hora</option>
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+          </select>
+        </div>
+
+        <!-- Nombre del cliente -->
+        <div class="form-group">
+          <label for="nombre">Tu nombre:</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+        </div>
+
+        <!-- Correo electrónico -->
+        <div class="form-group">
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" name="email" placeholder="Escribe tu correo electrónico" required>
+        </div>
+
+        <!-- Botón para confirmar reserva -->
+        <button type="submit">Confirmar Reserva</button>
+      </form>
+
+      <!-- Mensaje de confirmación -->
+      <div id="confirmationMessage" class="confirmation" style="display: none;">
+        <h2>¡Reserva Confirmada!</h2>
+        <p>Gracias, <span id="nombreCliente"></span>. Hemos reservado tu cita para el <span id="fechaReserva"></span> a
+          las <span id="horaReserva"></span>.</p>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript básico para manejar el formulario
+      document.getElementById('reservaForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Evita que el formulario se envíe
+
+        // Obtener los valores del formulario
+        const nombre = document.getElementById('nombre').value;
+        const fecha = document.getElementById('fecha').value;
+        const hora = document.getElementById('hora').value;
+
+        // Mostrar el mensaje de confirmación
+        document.getElementById('nombreCliente').textContent = nombre;
+        document.getElementById('fechaReserva').textContent = fecha;
+        document.getElementById('horaReserva').textContent = hora;
+
+        // Ocultar el formulario y mostrar el mensaje de confirmación
+        document.getElementById('reservaForm').style.display = 'none';
+        document.getElementById('confirmationMessage').style.display = 'block';
+      });
+    </script>
+
+</section>

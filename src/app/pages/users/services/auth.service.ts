@@ -3,6 +3,9 @@ import { Auth, authState, createUserWithEmailAndPassword, GoogleAuthProvider, se
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import {Servicio} from '../../models/servicio.models';
+import { collectionData, docData } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 
 interface ErrorResponse {
   code: string;
@@ -17,7 +20,7 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly googleProvider = new GoogleAuthProvider();
 
-  constructor() {}
+  constructor(private firestore: Firestore) {}
 
   get userState$(): Observable<User | null> {
     return authState(this.auth);
@@ -92,5 +95,42 @@ export class AuthService {
   private checkUserIsVerified(user: User): void {
     const route = user.emailVerified ? '/user/profile' : '/user/email-verification';
     this.router.navigate([route]);
+  }
+
+
+
+
+//Metodos para servicio-productos
+
+
+// Obtener todos los servicios desde Firestore
+getServicios(): Observable<Servicio[]> {
+  const serviciosRef = collection(this.firestore, 'servicios');
+  return collectionData(serviciosRef, { idField: 'id' }) as Observable<Servicio[]>;
+}
+
+// Actualizar un servicio en Firestore
+
+
+// Eliminar un servicio de Firestore
+async deleteServicio(id: string): Promise<void> {
+  const servicioRef = doc(this.firestore, `servicios/${id}`);
+  try {
+    await deleteDoc(servicioRef);
+    console.log('Servicio eliminado exitosamente');
+  } catch (error) {
+    console.error('Error al eliminar el servicio: ', error);
+  }
+}
+  // Agregar un nuevo servicio (Firestore genera el 'id')
+  async addServicio(servicio: Omit<Servicio, 'id'>): Promise<void> {
+    const servicioRef = collection(this.firestore, 'servicios');
+    await addDoc(servicioRef, servicio);
+  }
+
+  // Actualizar un servicio existente
+  async updateServicio(id: string, servicio: Omit<Servicio, 'id'>): Promise<void> {
+    const servicioDocRef = doc(this.firestore, `servicios/${id}`);
+    await updateDoc(servicioDocRef, { ...servicio });
   }
 }

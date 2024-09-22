@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ErrorMessageComponent } from "./components/error-message/error-message.component";
 import { AuthService } from '@app/pages/users/services/auth.service';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 const actionType={
   signIn:{
@@ -49,10 +50,29 @@ export class AuthFormComponent implements OnInit {
     this.user$ = this.authSvc.userState$;
 }
 
-onSubmit():void{
-  const{email,password,nombre}= this.form.value;
-  this.action === actionType.signIn.action ?
-    this.authSvc.signIn(email, password) : this.authSvc.signUp(email, password);
+onSubmit(): void {
+  const { email, password } = this.form.value;
+
+  // Comprobamos si la acción es de inicio de sesión o registro
+  if (this.action === actionType.signIn.action) {
+    this.authSvc.signIn(email, password)
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error durante el proceso. Por favor, verifica tu información.',
+        });
+      });
+  } else {
+    this.authSvc.signUp(email, password)
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error durante el proceso de registro. Por favor, verifica tu información.',
+        });
+      });
+  }
 }
 
 hasError(field:string): boolean{

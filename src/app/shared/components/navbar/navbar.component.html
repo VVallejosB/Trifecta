@@ -24,8 +24,16 @@
       <ng-container *ngIf="user$ | async as user; else guestLinks">
         <!-- Si el usuario está autenticado, se muestra su email y el botón de Sign Out -->
         <div>
-          <h1>¡Bienvenido!</h1>
-          <span class="user-email">{{ user.email }}</span>
+          <button class="dropdown-toggle" (click)="toggleMenu()">
+            <div>
+              <h1>¡Bienvenido! </h1>
+              <span class="user-email">{{ user.email }}</span>
+              <img style="width: 20px ; height: 20px; margin-left: 80px;" src="https://cdn-icons-png.flaticon.com/128/5176/5176144.png" alt="">
+            </div>
+          </button>
+          <div class="dropdown-menu" *ngIf="menuVisible">
+            <a href="user/profile" class="dropdown-item">Mi Cuenta</a>
+          </div>
         </div>
 
         <a href="" (click)="onSignOut()" class="nav-btn">Cerrar Sesión</a>

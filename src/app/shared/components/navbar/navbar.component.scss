@@ -356,3 +356,53 @@ h1{
   font-size: 25px;
 
 }
+/* Contenedor del dropdown */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Botón del dropdown */
+.dropdown-toggle {
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px;
+  color: #333;
+}
+
+.dropdown-toggle:focus {
+  outline: none;
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  background-color: #9ebfec  ;
+  min-width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+/* Elementos del menú */
+.dropdown-item {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: transparent;
+}
+
+/* Divisor del menú */
+.dropdown-divider {
+  border: 0;
+  border-top: 1px solid transparent;
+  margin: 10px 0;
+}
