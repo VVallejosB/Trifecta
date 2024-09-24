@@ -1,0 +1,51 @@
+<div class="reservas-container">
+  <!-- Título principal bajo el logo -->
+  <div class="reservation-header">
+    <h2 class="calendar-header">Selecciona una fecha para hacer una reserva</h2>
+  </div>
+
+  <!-- Mostrar el nombre del mes y los botones de navegación -->
+  <div class="calendar-navigation" style="margin-top: 30px;">
+    <button (click)="prevMonth()" class="nav-button">
+      &#9664; <!-- Símbolo de flecha para retroceder -->
+    </button>
+    <h3>{{ getFormattedDate() | uppercase }}</h3>
+    <button (click)="nextMonth()" class="nav-button">
+      &#9654; <!-- Símbolo de flecha para avanzar -->
+    </button>
+  </div>
+
+  <!-- Vista del calendario -->
+  <div class="calendar">
+    <mwl-calendar-month-view 
+      [viewDate]="viewDate" 
+      [events]="events" 
+      (dayClicked)="onDayClicked($event)"
+      [refresh]="refresh"
+      [cellTemplate]="customDayTemplate">
+    </mwl-calendar-month-view>
+
+    <!-- Template para el día -->
+    <ng-template #customDayTemplate let-day="day">
+      <div [ngClass]="{'selected-day': isDaySelected(day)}">
+        {{ day.date | date:'d' }}
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Mostrar los horarios si hay una fecha seleccionada -->
+  <div *ngIf="selectedDate" class="horarios-container">
+    <h3>Seleccione un horario</h3>
+    <div *ngFor="let horario of horarios">
+      <input type="radio" name="horario" [value]="horario" (change)="onHorarioSelected(horario)">
+      <label>{{ horario }}</label>
+    </div>
+  </div>
+
+  <!-- Botón de realizar pago -->
+  <div *ngIf="selectedHorario" class="reservation-button">
+    <button (click)="realizarPago()" class="btn-reserva">
+      Realizar Pago
+    </button>
+  </div>
+</div>

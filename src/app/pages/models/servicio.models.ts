@@ -3,6 +3,16 @@ export interface Servicio {
   tipoServicio: string;
   valor: number;
   descripcion: string;
-  imagen: string;  // Nuevo atributo para la imagen
-  horas:number
+  imagen: string;  // Imagen del servicio
+  horas: number;   // Duración en horas
 }
+
+export interface Reservas {
+  id: string;
+  userId: string;
+  fecha: Date;
+  servicio: Servicio;  // Ahora relacionado correctamente con la interfaz Servicio
+}
+
+
+

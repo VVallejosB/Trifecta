@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Auth, authState, createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, User, UserCredential } from '@angular/fire/auth';
+import { Auth, authState, createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, User } from '@angular/fire/auth';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import {Servicio} from '../../models/servicio.models';
+import { Servicio, Reservas } from '../../models/servicio.models';  // Se asegura que el modelo Reservas incluye Servicio
 import { collectionData, docData } from '@angular/fire/firestore';
-import { Firestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, doc, updateDoc, deleteDoc, query, where } from '@angular/fire/firestore';
 
 interface ErrorResponse {
   code: string;
@@ -25,6 +25,7 @@ export class AuthService {
   get userState$(): Observable<User | null> {
     return authState(this.auth);
   }
+
   getUser() {
     return authState(this.auth);
   }
@@ -32,7 +33,7 @@ export class AuthService {
   async signInGoogle(): Promise<void> {
     try {
       await signInWithPopup(this.auth, this.googleProvider);
-      this.router.navigate(['/user/profile']); // Redirige a perfil tras inicio exitoso
+      this.router.navigate(['/user/profile']);
     } catch (error) {
       console.error('Google login error:', error);
     }
@@ -70,7 +71,7 @@ export class AuthService {
   async signOut(): Promise<void> {
     try {
       await this.auth.signOut();
-      this.router.navigate(['/']); // Redirige a la página principal tras cierre de sesión
+      this.router.navigate(['/']);
     } catch (error: unknown) {
       console.error('SignOut Error:', error);
     }
@@ -97,40 +98,54 @@ export class AuthService {
     this.router.navigate([route]);
   }
 
+  // Métodos para manejar servicios-productos
 
-
-
-//Metodos para servicio-productos
-
-
-// Obtener todos los servicios desde Firestore
-getServicios(): Observable<Servicio[]> {
-  const serviciosRef = collection(this.firestore, 'servicios');
-  return collectionData(serviciosRef, { idField: 'id' }) as Observable<Servicio[]>;
-}
-
-// Actualizar un servicio en Firestore
-
-
-// Eliminar un servicio de Firestore
-async deleteServicio(id: string): Promise<void> {
-  const servicioRef = doc(this.firestore, `servicios/${id}`);
-  try {
-    await deleteDoc(servicioRef);
-    console.log('Servicio eliminado exitosamente');
-  } catch (error) {
-    console.error('Error al eliminar el servicio: ', error);
+  getServicios(): Observable<Servicio[]> {
+    const serviciosRef = collection(this.firestore, 'servicios');
+    return collectionData(serviciosRef, { idField: 'id' }) as Observable<Servicio[]>;
   }
-}
-  // Agregar un nuevo servicio (Firestore genera el 'id')
+
+  async deleteServicio(id: string): Promise<void> {
+    const servicioRef = doc(this.firestore, `servicios/${id}`);
+    try {
+      await deleteDoc(servicioRef);
+      console.log('Servicio eliminado exitosamente');
+    } catch (error) {
+      console.error('Error al eliminar el servicio: ', error);
+    }
+  }
+
   async addServicio(servicio: Omit<Servicio, 'id'>): Promise<void> {
     const servicioRef = collection(this.firestore, 'servicios');
     await addDoc(servicioRef, servicio);
   }
 
-  // Actualizar un servicio existente
   async updateServicio(id: string, servicio: Omit<Servicio, 'id'>): Promise<void> {
     const servicioDocRef = doc(this.firestore, `servicios/${id}`);
     await updateDoc(servicioDocRef, { ...servicio });
   }
+
+  // Métodos para manejar reservas
+
+  async crearReserva(reserva: Omit<Reservas, 'id'>): Promise<void> {
+    const reservaRef = collection(this.firestore, 'reservas');
+    try {
+      await addDoc(reservaRef, reserva);
+      console.log('Reserva creada con éxito');
+    } catch (error) {
+      console.error('Error al crear la reserva: ', error);
+    }
+  }
+
+  getReservas(): Observable<Reservas[]> {
+    const reservasRef = collection(this.firestore, 'reservas');
+    return collectionData(reservasRef, { idField: 'id' }) as Observable<Reservas[]>;
+  }
+
+  getReservasPorUsuario(userId: string): Observable<Reservas[]> {
+    const reservasRef = collection(this.firestore, 'reservas');
+    const q = query(reservasRef, where('userId', '==', userId));
+    return collectionData(q, { idField: 'id' }) as Observable<Reservas[]>;
+  }
 }
+

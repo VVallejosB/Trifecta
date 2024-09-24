@@ -24,9 +24,9 @@
           <p>{{servicio.horas}} horas</p>
           <p class="price">{{ servicio.valor | currency:'CLP':'symbol':'1.0-0' }}</p>
           <div class="buttons">
-            <button mat-raised-button color="primary">
+            <button mat-raised-button color="primary" (click)="verCalendario(servicio)">
               Buscar Disponibilidad
-            </button>
+            </button>          
             <button class="details-button">
               Ver Más Detalles
             </button>

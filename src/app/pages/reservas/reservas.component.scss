@@ -1,0 +1,114 @@
+.reservas-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.reservation-header {
+    display: flex;
+    justify-content: center; /* Centrar el texto debajo del logo */
+    margin-top: 30px;
+}
+
+.calendar-header {
+    margin-top: 70px;
+    background-color: #f7b733;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    width: 300px;
+}
+
+.calendar-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.calendar-navigation h3 {
+    margin: 0 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.nav-button {
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #00f;
+    padding: 0;
+}
+
+.calendar {
+    margin-top: 20px;
+}
+
+.horarios-container {
+    margin-top: 20px;
+    text-align: left;
+    display: inline-block;
+}
+
+.horarios-container h3 {
+    font-size: 1.2rem;
+}
+
+.horarios-container label {
+    margin-left: 10px;
+}
+
+.reservation-button {
+    margin-top: 20px;
+}
+
+/* Estilos para el botón de "Realizar Pago" */
+.btn-reserva {
+    background-color: #0084ff; /* Color de fondo llamativo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Tamaño del botón */
+    text-align: center; /* Alinear el texto al centro */
+    text-decoration: none; /* Quitar subrayado */
+    display: inline-block; /* Alinear el botón en línea */
+    font-size: 16px; /* Tamaño de la fuente */
+    margin-top: 15px; /* Separación superior */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar el cursor cuando pase por encima */
+    transition: background-color 0.3s ease; /* Animación en el color de fondo */
+}
+
+.btn-reserva:hover {
+    background-color: #cc7a00; /* Color al pasar el mouse */
+}
+
+/* Resaltar día seleccionado en el calendario */
+.selected-day {
+    background-color: #673ab7; /* Color de fondo del día seleccionado */
+    color: white; /* Color del texto */
+    border-radius: 50%; /* Forma circular */
+    width: 36px; /* Ancho del círculo */
+    height: 36px; /* Alto del círculo */
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    font-weight: bold; /* Resaltar el texto */
+}
+
+/* Estilos para marcar el día seleccionado */
+.selected-day {
+    background-color: #673ab7;  /* Fondo morado para el día seleccionado */
+    color: white;  /* Texto en blanco */
+    border-radius: 50%;  /* Hacer que el día sea redondo */
+    width: 36px;  /* Ajusta el tamaño del círculo */
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;  /* Negrita para el texto */
+}
+
