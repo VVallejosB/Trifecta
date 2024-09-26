@@ -1,39 +1,46 @@
 <section class="servicios-container">
+  <section class="section-title">
+    <div class="title-content">
+      <h1>Nuestros Servicios</h1>
+    </div>
+  </section>
   <div>
-    <div class="consideraciones-container">
-      <header class="consideraciones-header">
-        <h1>Cosas a Considerar Antes de Agendar</h1>
-      </header>
-
-      <div class="consideraciones-list">
+    <section class="disclaimer-container">
+      <div class="disclaimer-content">
+        <h2>Aviso Importante Antes de Reservar</h2>
+        <p>
+          Por favor, tenga en cuenta las siguientes consideraciones antes de realizar su reserva:
+        </p>
         <ul>
           <li>Las reservas deben realizarse con al menos 24 horas de antelación.</li>
-          <li>Para cancelaciones, se debe avisar con 48 horas de anticipación.</li>
-          <li>Se permite un máximo de 6 personas por tinaja.</li>
-          <li>Es obligatorio traer traje de baño y toalla propia.</li>
-          <li>El servicio incluye uso exclusivo de la tinaja durante el tiempo reservado.</li>
+          <li>Para cancelaciones, se debe avisar con al menos 48 horas de anticipación.</li>
+          <li>El máximo de personas por servicio es de 6 personas.</li>
+          <li>Es obligatorio traer traje de baño y toalla propia para los servicios de spa.</li>
+          <li>El uso de las instalaciones es exclusivo durante el tiempo reservado.</li>
+          <li>Los pagos deben realizarse por adelantado a través de los métodos de pago aceptados en nuestro sitio.</li>
         </ul>
+        <p>
+          Si tiene alguna duda sobre nuestras condiciones, por favor, no dude en <a href="/contact">contactarnos</a>.
+        </p>
       </div>
-    </div>
-    <div class="promociones" *ngFor="let servicio of servicios">
-      <div class="promo-card">
-        <img *ngIf="servicio.imagen" [src]="servicio.imagen" alt="Imagen del Servicio"  />
-        <div class="promo-content">
-          <h3>{{ servicio.tipoServicio }}</h3>
-          <p class="description">{{ servicio.descripcion }}</p>
-          <p>{{servicio.horas}} horas</p>
-          <p class="price">{{ servicio.valor | currency:'CLP':'symbol':'1.0-0' }}</p>
-          <div class="buttons">
-            <button mat-raised-button color="primary" (click)="verCalendario(servicio)">
-              Buscar Disponibilidad
-            </button>          
-            <button class="details-button">
-              Ver Más Detalles
-            </button>
+      </section>
+    <section class="servicios-container">
+      <div class="promociones">
+        <div class="promo-card" *ngFor="let servicio of servicios">
+          <img [src]="servicio.imagen" alt="Imagen del servicio">
+          <div class="promo-content">
+            <h3>{{ servicio.tipoServicio }}</h3>
+            <p class="description">{{ servicio.descripcion }}</p>
+            <p>{{ servicio.horas }} horas</p>
+            <p class="price">{{ servicio.valor | currency:'CLP':'symbol':'1.0-0' }}</p>
+            <div class="buttons">
+              <button mat-raised-button (click)="verCalendario(servicio)" color="primary">Buscar Disponibilidad</button>
+              <button class="details-button">Ver Más Detalles</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <div class="testimonials-container">
       <header class="testimonials-header">
@@ -52,68 +59,4 @@
       </div>
     </div>
   </div>
-
-  <h2>Agregar Servicio</h2>
-
-  <form [formGroup]="servicioForm" (ngSubmit)="agregarServicio()">
-    <!-- Campo para el tipo de servicio -->
-    <div>
-      <label for="tipoServicio">Tipo de Servicio</label>
-      <input id="tipoServicio" formControlName="tipoServicio" type="text" placeholder="Ingrese el tipo de servicio"
-        required />
-      <div *ngIf="servicioForm.get('tipoServicio')?.invalid && servicioForm.get('tipoServicio')?.touched">
-        <small>El tipo de servicio es requerido.</small>
-      </div>
-    </div>
-
-    <!-- Campo para el valor del servicio -->
-    <div>
-      <label for="valor">Valor</label>
-      <input id="valor" formControlName="valor" type="number" placeholder="Ingrese el valor" required />
-      <div *ngIf="servicioForm.get('valor')?.invalid && servicioForm.get('valor')?.touched">
-        <small>El valor del servicio es requerido y debe ser mayor que 0.</small>
-      </div>
-    </div>
-
-    <!-- Campo para la descripción del servicio -->
-    <div>
-      <label for="descripcion">Descripción</label>
-      <textarea id="descripcion" type="number" formControlName="descripcion" placeholder="Ingrese una descripción"
-        required></textarea>
-      <div *ngIf="servicioForm.get('descripcion')?.invalid && servicioForm.get('descripcion')?.touched">
-        <small>La descripción es requerida.</small>
-      </div>
-    </div>
-    <!-- Campo para las horas del servicio -->
-    <div>
-      <label for="horas">Horas del servicio</label>
-      <input id="horas" formControlName="horas" type="number" placeholder="Ingrese las horasr" required />
-      <div *ngIf="servicioForm.get('horas')?.invalid && servicioForm.get('horas')?.touched">
-        <small>Las horas son requeridas.</small>
-      </div>
-    </div>
-
-    <!-- Campo para la imagen del servicio -->
-    <div>
-
-      <label for="imagen">Subir Imagen</label>
-      <input type="file" (change)="onFileSelected($event)" required />
-
-      <div *ngIf="servicioForm.get('imagen')?.invalid && servicioForm.get('imagen')?.touched">
-        <small>La URL de la imagen es requerida.</small>
-      </div>
-    </div>
-
-    <!-- Botón para enviar el formulario -->
-    <button type="submit" [disabled]="servicioForm.invalid">Agregar Servicio</button>
-  </form>
-
-  <h2>Lista de Servicios</h2>
-  <ul>
-    <li *ngFor="let servicio of servicios">
-      <img *ngIf="servicio.imagen" [src]="servicio.imagen" alt="Imagen del Servicio" width="200" height="200" />- {{ servicio.tipoServicio }} - {{ servicio.valor }}
-      <button (click)="cargarServicioParaEditar(servicio)">Editar</button>
-      <<button (click)="eliminarServicio(servicio.id)">Eliminar</button>
-    </li>
-  </ul>
 </section>

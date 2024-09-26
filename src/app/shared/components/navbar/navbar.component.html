@@ -28,14 +28,26 @@
             <div>
               <h1>¡Bienvenido! </h1>
               <span class="user-email">{{ user.email }}</span>
-              <img style="width: 20px ; height: 20px; margin-left: 80px;" src="https://cdn-icons-png.flaticon.com/128/5176/5176144.png" alt="">
+              <img style="width: 20px; height: 20px; margin-left: 80px;" src="https://cdn-icons-png.flaticon.com/128/5176/5176144.png" alt="Icono de usuario">
             </div>
           </button>
           <div class="dropdown-menu" *ngIf="menuVisible">
-            <a href="user/profile" class="dropdown-item">Mi Cuenta</a>
+            <div class="dropdown-items-container">
+              <a href="user/profile" class="dropdown-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/1077/1077012.png" alt="Icono de perfil" class="dropdown-icon">
+                <p>Gestión Cuenta</p>
+              </a>
+              <a href="" class="dropdown-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/5952/5952806.png" alt="Icono de compras" class="dropdown-icon">
+                <p>Mis Compras</p>
+              </a>
+              <a href="" class="dropdown-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/3435/3435711.png" alt="Icono de compras" class="dropdown-icon">
+                <p>Mis Reseñas</p>
+              </a>
+            </div>
           </div>
         </div>
-
         <a href="" (click)="onSignOut()" class="nav-btn">Cerrar Sesión</a>
       </ng-container>
 
@@ -49,4 +61,6 @@
       <!-- <div class="bx bx-menu" id="menu-icon" (click)="toggleMenu()"></div> -->
     </div>
   </header>
+
+
 

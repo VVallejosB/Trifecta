@@ -21,7 +21,7 @@ export class ProductosComponent implements OnInit {
     private servicioService: AuthService,
     private fb: FormBuilder,
     private router: Router  // Inyectar Router para la redirección
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.servicioForm = this.fb.group({

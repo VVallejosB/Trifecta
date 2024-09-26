@@ -13,22 +13,25 @@ import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth'; 
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms'; // Si también vas a usar formularios reactivos
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Importaciones necesarias para angular-calendar
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ReservasComponent } from './pages/reservas/reservas.component';
+import { PagoComponent } from './pages/pago/pago.component';
 
 
 @NgModule({
-  declarations: [AppComponent, ReservasComponent],
+  declarations: [AppComponent, ReservasComponent, PagoComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NavbarComponent,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),  // Inicialización de Firebase
     provideAuth(() => {
       const auth = getAuth();  // Configuración de autenticación

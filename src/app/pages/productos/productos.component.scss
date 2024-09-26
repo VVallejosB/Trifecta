@@ -11,25 +11,23 @@ section {
 .promociones {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center; /* Asegura que las tarjetas estén centradas */
+  gap: 20px; /* Espacio entre las tarjetas */
+  justify-content: space-between; /* Distribuye las tarjetas uniformemente */
   max-width: 1200px;
-  margin: 0 auto; /* Centra las tarjetas horizontalmente */
+  margin: 0 auto;
 }
 
 /* Tarjetas de promoción */
 .promo-card {
-  background: linear-gradient(145deg, #ffffff, #f5f5f5); /* Gradiente suave */
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
   border-radius: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  flex-basis: 30%;
+  flex-basis: calc(33.333% - 20px); /* Ajusta el tamaño de las tarjetas en un 33% del contenedor */
   text-align: center;
   padding: 15px;
   transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-  max-width: 300px; /* Limita el ancho máximo de cada tarjeta */
 }
-
 .promo-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
@@ -71,7 +69,7 @@ section {
 }
 
 .promo-card .buttons button {
-  background-color: #9ac4ff ;
+  background-color: #9ac4ff;
   color: #fff;
   border: none;
   padding: 10px;
@@ -83,73 +81,84 @@ section {
 }
 
 .promo-card .buttons button:hover {
-  background-color: #88ace0 ;
+  background-color: #88ace0;
   transform: scale(1.05);
 }
 
 .promo-card .buttons button.details-button {
-  background-color: #88ace0 ;
+  background-color: #88ace0;
 }
 
 .promo-card .buttons button.details-button:hover {
-  background-color: #88ace0 ;
+  background-color: #88ace0;
 }
 
-/* Responsivo: para pantallas más pequeñas */
-@media (max-width: 768px) {
+/* Responsivo: para pantallas medianas */
+@media (max-width: 1024px) {
   .promo-card {
-    flex-basis: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
-    margin-bottom: 20px;
+    flex-basis: calc(50% - 20px); /* Dos tarjetas por fila */
   }
 }
 
+/* Responsivo: para pantallas pequeñas */
+@media (max-width: 768px) {
+  .promo-card {
+    flex-basis: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+  }
+}
 /* Sección de consideraciones */
-.consideraciones-container {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  color: #c43d22;
-  max-width: 1000px;
-  margin: 40px auto;
-  box-sizing: border-box;
+.disclaimer-container {
+  background-color: #f8f9fa; /* Color de fondo suave */
+  border-left: 4px solid #829fff; /* Barra de color para destacar el aviso */
+  padding: 20px;
+  margin: 20px auto; /* Centra el disclaimer automáticamente */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px; /* Define un ancho máximo para que no ocupe todo el espacio */
+  text-align: left; /* Alineación del texto a la izquierda */
 }
 
-.consideraciones-header {
-  text-align: center;
-  padding-bottom: 20px;
-  border-bottom: 2px #333;
-  margin-bottom: 20px;
+.disclaimer-content h2 {
+  color: #829fff; /* Color del título */
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  text-align: center; /* Centra el título del disclaimer */
 }
 
-.consideraciones-header h1 {
-  font-size: 2em;
-  color: #c43d22;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.disclaimer-content p {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 15px;
 }
 
-.consideraciones-list ul {
+.disclaimer-content ul {
   list-style-type: none;
-  padding: 0;
-  margin: 0;
+  padding-left: 0;
 }
 
-.consideraciones-list li {
-  margin: 15px 0;
-  font-size: 1.2em;
+.disclaimer-content ul li {
+  margin: 10px 0;
+  padding-left: 20px;
   position: relative;
-  padding-left: 30px;
-  line-height: 1.6;
+  font-size: 1rem;
+  color: #333;
 }
 
-.consideraciones-list li::before {
-  content: '★';
+.disclaimer-content ul li::before {
+  content: "⚠️"; /* Icono de advertencia antes de cada elemento */
   position: absolute;
   left: 0;
-  color: #5b7394;
-  font-size: 1.5em;
 }
+
+.disclaimer-content a {
+  color: #5fa1ff;
+  text-decoration: underline;
+}
+
+.disclaimer-content a:hover {
+  color: #ff6f61;
+}
+
 
 /* Sección de testimonios */
 .testimonials-container {
@@ -208,7 +217,53 @@ section {
 }
 /* Asegúrate de que el navbar esté siempre visible en la parte superior */
 /* Asegúrate de que el navbar esté siempre visible en la parte superior */
+
 section {
   padding-top: 150px; /* Ajusta este valor a la altura del navbar */
   margin: 0; /* Asegúrate de que no haya margen extra */
+}
+@media (max-width: 1024px) {
+  .promo-card {
+    flex-basis: 45%; /* Ajusta a dos tarjetas por fila en pantallas medianas */
+  }
+}
+.services-title {
+  text-align: center;
+  font-size: 2rem; /* Tamaño del título */
+  margin: 30px auto; /* Espacio alrededor del título */
+  color: #829fff;/* Color del texto */
+  font-weight: 600; /* Grosor de la fuente */
+}
+/* Estilo para la sección del título */
+.section-title {
+  background: url('https://s1.1zoom.me/b5344/960/Towel_Shells_Spa_Salt_Wood_planks_562889_1920x1080.jpg') no-repeat center center/cover; /* Imagen de fondo */
+  height: 300px; /* Altura de la sección del título */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 40px; /* Espacio debajo del título */
+  overflow: hidden;
+  text-align: center;
+  clip-path: ellipse(90% 100% at 50% 0%); /* Efecto curvado en la parte inferior */
+}
+
+/* Contenido del título */
+.title-content h1 {
+  font-size: 3rem; /* Tamaño de la fuente del título */
+  color: white; /* Color del texto */
+  font-weight: 700; /* Grosor del texto */
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Sombra para resaltar el texto */
+  z-index: 1; /* Asegura que el texto esté delante del fondo */
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+  .section-title {
+    height: 200px; /* Ajusta la altura en pantallas más pequeñas */
+  }
+
+  .title-content h1 {
+    font-size: 2rem; /* Ajusta el tamaño del texto en pantallas más pequeñas */
+  }
 }

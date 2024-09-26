@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';  // Asegúrate de importar HttpClient
 import { CalendarEvent, CalendarView, CalendarMonthViewDay } from 'angular-calendar';
 import { addMonths, subMonths, format } from 'date-fns';
 import { Subject } from 'rxjs';
@@ -19,9 +20,10 @@ export class ReservasComponent {
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   horarios: string[] = ['10:00 - 13:00', '13:00 - 16:00', '16:00 - 19:00'];
-
-  // Definir locale para formato en español
   locale = es;
+
+  // Inyectar el HttpClient en el constructor
+  constructor(private http: HttpClient) {}
 
   nextMonth(): void {
     this.viewDate = addMonths(this.viewDate, 1);
@@ -35,7 +37,6 @@ export class ReservasComponent {
     return format(this.viewDate, 'MMMM yyyy', { locale: this.locale });
   }
 
-  // Método cuando se selecciona un día
   onDayClicked(event: { day: CalendarMonthViewDay }): void {
     if (this.selectedDate && this.selectedDate.getTime() === event.day.date.getTime()) {
       this.selectedDate = null;
@@ -44,20 +45,30 @@ export class ReservasComponent {
     }
   }
 
-  // Método para agregar una clase CSS al día seleccionado
-  // Método para agregar una clase CSS al día seleccionado
   isDaySelected(day: CalendarMonthViewDay): boolean {
     return !!this.selectedDate && this.selectedDate.getTime() === day.date.getTime();
   }
-
 
   onHorarioSelected(horario: string): void {
     this.selectedHorario = horario;
   }
 
+  // Redirigir al pago con Transbank
   realizarPago(): void {
     if (this.selectedDate && this.selectedHorario) {
-      console.log(`Reserva para el ${this.selectedDate} en el horario ${this.selectedHorario}`);
+      // Realiza una petición POST al backend para iniciar la transacción
+      this.http.post<any>('http://localhost:5000/iniciar-transaccion', {
+        fecha: this.selectedDate,
+        horario: this.selectedHorario
+      }).subscribe((response: any) => {
+        // Redirigir al usuario a la URL proporcionada por Transbank con el token
+        window.location.href = `${response.url}?token_ws=${response.token}`;
+      }, (error) => {
+        console.error('Error al iniciar la transacción:', error);
+        alert('Hubo un problema al iniciar la transacción.');
+      });
+    } else {
+      alert('Por favor seleccione una fecha y un horario antes de proceder al pago.');
     }
   }
 }
