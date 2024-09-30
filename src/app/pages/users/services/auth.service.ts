@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Servicio, Reservas } from '../../models/servicio.models';  // Se asegura que el modelo Reservas incluye Servicio
 import { collectionData, docData } from '@angular/fire/firestore';
 import { Firestore, collection, addDoc, doc, updateDoc, deleteDoc, query, where } from '@angular/fire/firestore';
+import { ContactFormData } from '../../models/servicio.models';
 
 interface ErrorResponse {
   code: string;
@@ -147,5 +148,20 @@ export class AuthService {
     const q = query(reservasRef, where('userId', '==', userId));
     return collectionData(q, { idField: 'id' }) as Observable<Reservas[]>;
   }
+
+  async enviarFormularioContacto(formData: Omit<ContactFormData, 'id'>): Promise<void> {
+    const contactRef = collection(this.firestore, 'contactanos');
+    const user = this.auth.currentUser;
+
+    // Agregar la fecha actual y el email del usuario al formData
+    const formDataWithDateAndUser = {
+      ...formData,
+      fechaEnvio: new Date(), // Fecha actual
+      usuario: user ? user.email : 'Anonimo', // Si el usuario está autenticado, usar su email
+    };
+
+    await addDoc(contactRef, formDataWithDateAndUser);
+  }
+  
 }
 

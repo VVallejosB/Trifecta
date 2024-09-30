@@ -20,11 +20,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ReservasComponent } from './pages/reservas/reservas.component';
-import { PagoComponent } from './pages/pago/pago.component';
+import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 
 
 @NgModule({
-  declarations: [AppComponent, ReservasComponent, PagoComponent],
+  declarations: [AppComponent, ReservasComponent, ContactanosComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,56 @@
+<section>
+  <body>
+    <div class="contact-form-container">
+      <h2>Contáctanos</h2>
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+
+        <!-- Título -->
+        <div class="form-group">
+          <label for="title">Título</label>
+          <input type="text" id="title" formControlName="title" placeholder="Título" />
+          <div *ngIf="contactForm.controls['title'].invalid && contactForm.controls['title'].touched">
+            <small>El título es requerido.</small>
+          </div>
+        </div>
+
+        <!-- Mensaje -->
+        <div class="form-group">
+          <label for="message">Mensaje</label>
+          <textarea id="message" formControlName="message" placeholder="Tu mensaje" rows="5"></textarea>
+          <div *ngIf="contactForm.controls['message'].invalid && contactForm.controls['message'].touched">
+            <small>El mensaje es requerido.</small>
+          </div>
+        </div>
+
+        <!-- Imagen -->
+        <div class="form-group">
+          <label for="image">Imagen (opcional)</label>
+          <input type="file" id="image" (change)="onFileSelected($event)" />
+          <div *ngIf="imageBase64">
+            <small>Imagen cargada correctamente.</small>
+          </div>
+        </div>
+
+        <!-- Botón de envío -->
+        <button type="submit" [disabled]="contactForm.invalid">Enviar</button>
+      </form>
+      <br>
+  <!-- Sección de redes sociales -->
+  <div class="social-media-section">
+    <h3>También nos puedes contactar por nuestras redes sociales</h3>
+    <div class="social-media-icons">
+      <a href="https://www.facebook.com/tinajas.rustic?mibextid=ZbWKwL" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/128/733/733547.png" alt="Facebook" />
+      </a>
+      <a href="https://www.instagram.com/tinajas_rustic?igsh=aHNwemF5aTB5ODl5 " target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" alt="Instagram" />
+      </a>
+      <a href="https://api.whatsapp.com/message/52T5MPEMYE76H1?autoload=1&app_absent=0" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/128/3670/3670051.png" alt="WhatsApp" />
+      </a>
+    </div>
+  </div>
+    </div>
+    
+  </body>
+</section>

@@ -3,8 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './shared/guards/auth.guard';
 import { onlyLoggedInGuard } from './shared/guards/only-logged-in.guard';
 import { ReservasComponent } from './pages/reservas/reservas.component';  // Importar el componente de reservas
-import { PagoComponent } from './pages/pago/pago.component';  // Importar el componente de pago
-
+import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 const routes: Routes = [
   {
     path: '',
@@ -60,13 +59,15 @@ const routes: Routes = [
       import('./pages/home/home.module').then((m) => m.HomeModule),
   },
   {
+    path: 'contactanos',
+    loadChildren: () =>
+      import('./pages/contactanos/contactanos.module').then((m) => m.ContactanosModule),
+  },
+  {
     path: 'reservas/:id',  // Modificar la ruta para aceptar el id del servicio
     component: ReservasComponent,
   },
-  {
-    path: 'pago',  // Ruta para el componente de pago
-    component: PagoComponent,
-  },
+  
   {
     path: '**',  // Manejar rutas no encontradas (404)
     redirectTo: 'home',

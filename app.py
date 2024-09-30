@@ -1,61 +1,142 @@
-from flask import Flask, request, jsonify, redirect
-from transbank.webpay.webpay_plus.transaction import Transaction
-from transbank.common.integration_type import IntegrationType
-from transbank.webpay.webpay_plus.transaction import WebpayOptions
+# IMPORTACIÓN LIBRERIAS FLASK PARA GENERACIÓN DE API
+from flask import Flask, request, jsonify
+# IMPORTACIÓN DE LIBRERIA FLASK PARA DEFINIR POLITICAS DE ACCESO Y COMPARTICIÓN DE RECURSOS REMOTOS AL SERVICIO
 from flask_cors import CORS
-
+# IMPORTACIÓN DE LIBRERIA PARA CREAR CLIENTE API REST Y CONSUMIR APIS DE TERCEROS
+import requests
 
 app = Flask(__name__)
 CORS(app)
-# Configuración de Transbank para la versión 5.x del SDK
-commerce_code = "597055555532"  # Código de comercio de prueba
-api_key = "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C"  # API Key de pruebas
-integration_type = IntegrationType.TEST  # Entorno de pruebas (TEST)
 
-# Crear las opciones para la transacción de Webpay Plus
-options = WebpayOptions(api_key, commerce_code, integration_type)
+# SE HABILITA ACCESO PARA API DESDE EL ORIGEN *
+cors = CORS(app, resource={
+    r"/api/v1/transbank/*": {
+        "origins": "*"
+    }
+})
 
-# Ruta para iniciar la transacción
-@app.route('/iniciar-transaccion', methods=['POST'])
+# MÉTODO QUE CREA LA CABECERA SOLICITADA POR TRANSBANK EN UN REQUEST (SOLICITUD)
+def header_request_transbank():
+    headers = { 
+        # Tipo de autorización y autenticación
+        "Authorization": "Token",
+        # Llave de ambiente de pruebas de Transbank (modificar en producción)
+        "Tbk-Api-Key-Id": "597055555532",
+        "Tbk-Api-Key-Secret": "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        'Referrer-Policy': 'origin-when-cross-origin',
+    }
+    return headers
+
+# RUTA PARA CREAR UNA TRANSACCIÓN
+@app.route('/api/v1/transbank/transaction/create', methods=['POST'])
 def iniciar_transaccion():
     try:
-        # Datos de la transacción
-        buy_order = "orden_compra_12345"  # El ID de la orden de compra
-        session_id = "sesion_1234564"  # Un ID de sesión para identificar la transacción
-        amount = 10000  # Monto de la transacción (en pesos)
-        return_url = "http://localhost:5000/retorno"  # URL de retorno para el resultado de la transacción
+        # Obtener los datos enviados desde el frontend
+        data = request.json
+        print('Datos recibidos: ', data)
 
-        # Iniciar la transacción con Transbank
-        tx = Transaction(options=options)
-        response = tx.create(buy_order, session_id, amount, return_url)
+        # Verificación de datos requeridos
+        if not data.get('buy_order') or not data.get('session_id') or not data.get('amount') or not data.get('return_url'):
+            return jsonify({"error": "Faltan datos necesarios para la transacción"}), 400
+        
+        # URL de Transbank para crear una transacción
+        url = "https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2/transactions"
+        headers = header_request_transbank()
 
-        # Devolver la URL y el token al frontend para redirigir al usuario
-        return jsonify({
-            "url": response['url'],
-            "token": response['token']
-        })
-    except Exception as e:
-        # Manejo de errores y log para entender mejor el problema
-        app.logger.error(f"Error al iniciar la transacción: {str(e)}")
-        return jsonify({"error": f"Error al iniciar la transacción: {str(e)}"}), 500
-
-# Ruta para recibir el retorno de Transbank y confirmar la transacción
-@app.route('/retorno', methods=['POST'])
-def retorno():
-    token = request.form.get("token_ws")  # Recuperar el token desde el formulario de retorno
-    transaction = Transaction(options=options)
-    
-    try:
-        # Confirmar la transacción usando el token de retorno
-        response = transaction.commit(token)
-        if response['status'] == 'AUTHORIZED':
-            return "Pago exitoso"
+        # Llamada a la API de Transbank para crear la transacción
+        response = requests.post(url, json=data, headers=headers)
+        
+        # Verificación de si la respuesta es JSON
+        if response.headers.get('Content-Type') == 'application/json':
+            response_data = response.json()
+            print('Respuesta de Transbank: ', response_data)
         else:
-            return f"Error en el pago, estado: {response['status']}"
-    except Exception as e:
-        # Manejo de errores en la confirmación de la transacción
-        app.logger.error(f"Error al confirmar la transacción: {str(e)}")
-        return f"Error al confirmar la transacción: {str(e)}"
+            response_data = {"error": "Respuesta inesperada de Transbank"}
+            print('Respuesta de Transbank no es JSON')
 
+        # Retorno de la respuesta de Transbank
+        return jsonify(response_data), response.status_code
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error en la solicitud a Transbank: {str(e)}")
+        return jsonify({"error": f"Error en la solicitud a Transbank: {str(e)}"}), 500
+    except Exception as e:
+        print(f"Error en la creación de la transacción: {str(e)}")
+        return jsonify({"error": f"Error en la creación de la transacción: {str(e)}"}), 500
+
+
+# RUTA PARA CONFIRMAR UNA TRANSACCIÓN USANDO EL TOKEN
+@app.route('/api/v1/transbank/transaction/commit/<string:tokenws>', methods=['PUT'])
+def transbank_commit(tokenws):
+    try:
+        # URL de Transbank para confirmar una transacción
+        url = f"https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2/transactions/{tokenws}"
+        headers = header_request_transbank()
+
+        # Llamada a la API de Transbank para confirmar la transacción
+        response = requests.put(url, headers=headers)
+        
+        # Verificación de si la respuesta es JSON
+        if response.headers.get('Content-Type') == 'application/json':
+            response_data = response.json()
+            print('Respuesta de Transbank: ', response_data)
+        else:
+            response_data = {"error": "Respuesta inesperada de Transbank"}
+            print('Respuesta de Transbank no es JSON')
+
+        # Retorno de la respuesta de Transbank
+        return jsonify(response_data), response.status_code
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error en la solicitud a Transbank: {str(e)}")
+        return jsonify({"error": f"Error en la solicitud a Transbank: {str(e)}"}), 500
+    except Exception as e:
+        print(f"Error en la confirmación de la transacción: {str(e)}")
+        return jsonify({"error": f"Error en la confirmación de la transacción: {str(e)}"}), 500
+
+
+# RUTA PARA CANCELAR O REVERTIR UNA TRANSACCIÓN USANDO EL TOKEN
+@app.route('/api/v1/transbank/transaction/reverse-or-cancel/<string:tokenws>', methods=['POST'])
+def transbank_reverse_or_cancel(tokenws):
+    try:
+        # Obtener los datos enviados desde el frontend
+        data = request.json
+        print('Datos recibidos: ', data)
+
+        # Verificación de monto en la solicitud
+        if not data.get('amount'):
+            return jsonify({"error": "Falta el monto para cancelar o revertir la transacción"}), 400
+        
+        # URL de Transbank para cancelar o revertir una transacción
+        url = f"https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2/transactions/{tokenws}/refunds"
+        headers = header_request_transbank()
+
+        # Llamada a la API de Transbank para cancelar o revertir la transacción
+        response = requests.post(url, json=data, headers=headers)
+        
+        # Verificación de si la respuesta es JSON
+        if response.headers.get('Content-Type') == 'application/json':
+            response_data = response.json()
+            print('Respuesta de Transbank: ', response_data)
+        else:
+            response_data = {"error": "Respuesta inesperada de Transbank"}
+            print('Respuesta de Transbank no es JSON')
+
+        # Retorno de la respuesta de Transbank
+        return jsonify(response_data), response.status_code
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error en la solicitud a Transbank: {str(e)}")
+        return jsonify({"error": f"Error en la solicitud a Transbank: {str(e)}"}), 500
+    except Exception as e:
+        print(f"Error en la cancelación de la transacción: {str(e)}")
+        return jsonify({"error": f"Error en la cancelación de la transacción: {str(e)}"}), 500
+
+# DESPLIEGUE DEL SERVICIO EN PUERTO 8900 PARA PRUEBAS
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8900, debug=True)
+
+
+  
